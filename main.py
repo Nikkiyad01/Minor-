@@ -7,6 +7,32 @@ import pyjokes
 import random
 import threading
 import hud_ui
+import datetime
+
+# def processcommand(c):
+  
+#     c = c.lower()
+
+#     # --- TIME ---
+#     if "time" in c:
+#         now = datetime.datetime.now().strftime("%I:%M %p")
+#         speak(f"The time is {now}")
+#         return
+
+#     # --- DATE ---
+#     elif "date" in c:
+#         today = datetime.datetime.now().strftime("%d %B %Y")
+#         speak(f"Today's date is {today}")
+#         return
+
+#     # --- DAY ---
+#     elif "day" in c:
+#         day = datetime.datetime.now().strftime("%A")
+#         speak(f"Today is {day}")
+#         return
+    
+# # Other commands...
+
 
 def run_jarvis():
      jarvis_loop()
@@ -16,7 +42,7 @@ engine.setProperty("rate",175) #new
 
 def speak(text):
     engine.say(text)
-    engine.iterate()
+    engine.runAndWait()
 
 r = sr.Recognizer()
 r.energy_threshold = 300  #new
@@ -77,19 +103,21 @@ def jarvis_loop():
     # listen for the wake word
     # obtain audio for the microphone
     r = sr.Recognizer()
-
     print("Recognizing...")
 
     try:
       with sr.Microphone() as source:
           print("listening...")
           audio = r.listen(source,timeout=5,phrase_time_limit=4)
+
       word = r.recognize_google(audio) 
+
       if (word.lower() == "jarvis"):
         speak("Yay,I am here")
         #Listen for command
-        with sr.Microphone() as source:                                                                                             print("jarvis Active....")
-        audio = r.listen(source)
+        with sr.Microphone() as source: 
+         print("jarvis Active....")
+         audio = r.listen(source)
         command = r.recognize_google(audio)
 
         processcommand(command)
